@@ -35,12 +35,12 @@ def hello_world():
     conn = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:mayankazuredb.database.windows.net,1433;Database=azuredbtest;Uid=mayanksharma1893@mayankazuredb;Pwd=Mayank180493#;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
     lstDictionaryData = []
     cursor = conn.cursor()
-    startTime = time.time()
-    query = "SELECT TOP 10 latitude, longitude, mag, place FROM EARTHQUAKE"
+    startingtime = time.time()
+    query = "SELECT TOP 15 latitude, longitude, mag, place FROM EARTHQUAKE"
     # print(query)
     cursor.execute(query)
     # print(tmp)
-    endTime = time.time()
+    endingtime = time.time()
     row = cursor.fetchone()
     while row:
         lstDictionaryData.append(row)
@@ -48,8 +48,8 @@ def hello_world():
         row = cursor.fetchone()
     # return "hello!!"
     conn.close()
-    executionTime = (endTime - startTime) * 1000
-    return render_template('index.html', tableData=lstDictionaryData, tableDataLen=lstDictionaryData.__len__(), executionTime=executionTime)
+    Exectime = (endingtime - startingtime) * 1000
+    return render_template('index.html', tableData=lstDictionaryData, tableDataLen=lstDictionaryData.__len__(), Exectime=Exectime)
 
 @app.route('/showdb', methods=['GET', 'POST'])
 def showdb():
@@ -69,17 +69,17 @@ def createTable():
     # query = "CREATE TABLE dbo.all_month (\"time\" datetime, \"latitude\" FLOAT, \"longitude\" FLOAT, \"depth\" FLOAT, \"mag\" FLOAT, \"magType\" TEXT, \"nst\" INT, \"gap\" INT, \"dmin\" FLOAT, \"rms\" FLOAT, \"net\" TEXT, \"id\" TEXT, \"updated\" datetime, \"place\" TEXT, \"type\" TEXT, \"horontalError\" FLOAT, \"depthError\" FLOAT, \"magError\" FLOAT, \"magNst\" INT, \"status\" TEXT, \"locationSource\" TEXT, \"magSource\" TEXT)"
     query = 'CREATE TABLE azuredbtest.dbo.EARTHQUAKE1("time" DATETIME,latitude FLOAT,longitude FLOAT,depth FLOAT,mag FLOAT,magType TEXT,nst INT,gap INT,dmin FLOAT,rms FLOAT,net TEXT,id TEXT,updated DATETIME,place TEXT,type TEXT,horontalError FLOAT,depthError FLOAT,magError FLOAT,magNst INT,status TEXT,locationSource TEXT,magSource TEXT)'
     # print(query)
-    startTime = time.time()
+    startingtime = time.time()
     # cursor.execute(query)
     cursor.execute(query)
     cursor.execute("CREATE INDEX EARTHQUAKE_mag__index ON azuredbtest.dbo.EARTHQUAKE1 (mag)")
     cursor.execute("CREATE INDEX EARTHQUAKE_lat__index ON azuredbtest.dbo.EARTHQUAKE1 (latitude)")
     cursor.execute("CREATE INDEX EARTHQUAKE_long__index ON sazuredbtest.dbo.EARTHQUAKE1 (longitude)")
     conn.commit()
-    endTime = time.time()
+    endingtime = time.time()
     conn.close()
-    executionTime = (endTime - startTime) * 1000
-    return render_template('createtable.html', executionTime=executionTime)
+    Exectime = (endingtime - startingtime) * 1000
+    return render_template('createtable.html', Exectime=Exectime)
 
 @app.route('/location', methods=['GET', 'POST'])
 def location():
@@ -97,15 +97,15 @@ def location():
 
 @app.route('/randomqueries', methods=['GET', 'POST'])
 def randomQueries():
-    magnitudeStart = int(request.form['minmag'])
-    magnitudeEnd = int(request.form['maxmag'])
-    noOfQueries = int(request.form['count'])
-    withCache = int(request.form['Cache'])
-    # noOfQueries = request.form["quer"]
-    # print(type(noOfQueries))
-    # withCache = int(request.form['cache'])
-    # magnitudeStart = float(request.form['magnitudeStart'])
-    # magnitudeEnd = float(request.form['magnitudeEnd'])
+    startingMagnitude = int(request.form['minmag'])
+    EndingMagnitude = int(request.form['maxmag'])
+    queryCount = int(request.form['count'])
+    useCache = int(request.form['Cache'])
+    # queryCount = request.form["quer"]
+    # print(type(queryCount))
+    # useCache = int(request.form['cache'])
+    # startingMagnitude = float(request.form['startingMagnitude'])
+    # EndingMagnitude = float(request.form['EndingMagnitude'])
 
     list_dict_Data = []
     list_dict_DataDisplay = []
@@ -116,28 +116,28 @@ def randomQueries():
     columns = ['time', 'latitude', 'longitude', 'place', 'mag']
 
     # without cache
-    if withCache == 0:
+    if useCache == 0:
         # print("hi!")
 
-        magnitude_value = round(random.uniform(magnitudeStart, magnitudeEnd), 2)
+        magnitude_value = round(random.uniform(startingMagnitude, EndingMagnitude), 2)
         print(magnitude_value)
-        startTime = time.time()
+        startingtime = time.time()
         query = "SELECT 'time', latitude, longitude, place, mag FROM EARTHQUAKE WHERE mag = '" + str(magnitude_value) + "'"
         cursor.execute(query)
-        endTime = time.time()
+        endingtime = time.time()
         # print(query)
         list_dict_DataDisplay = cursor.fetchall()
         # print(list_dict_DataDisplay)
-        executionTime = (endTime - startTime) * 1000
-        firstExecutionTime = executionTime
+        Exectime = (endingtime - startingtime) * 1000
+        firstExecutionTime = Exectime
 
-        for i in range(noOfQueries-1):
-            totalExecutionTime = totalExecutionTime + executionTime
-            magnitude_value = round(random.uniform(magnitudeStart, magnitudeEnd), 2)
-            startTime = time.time()
+        for i in range(queryCount-1):
+            totalExecutionTime = totalExecutionTime + Exectime
+            magnitude_value = round(random.uniform(startingMagnitude, EndingMagnitude), 2)
+            startingtime = time.time()
             query = "SELECT 'time', latitude , longitude, place, mag FROM EARTHQUAKE WHERE mag = '" + str(magnitude_value) + "'"
             cursor.execute(query)
-            endTime = time.time()
+            endingtime = time.time()
             list_dict_Data = list(cursor.fetchall())
             # print("inside if")
             # print(lstDictionaryData)
@@ -152,20 +152,20 @@ def randomQueries():
                 memData.append(memDataDict)
             r.set(query, dumps(memData))
 
-            executionTime = (endTime - startTime) * 1000
-            # totalExecutionTime = totalExecutionTime + executionTime
+            Exectime = (endingtime - startingtime) * 1000
+            # totalExecutionTime = totalExecutionTime + Exectime
         # print(totalExecutionTime)
     # with cache
     else:
         print('Cache inside')
-        for x in range(noOfQueries):
+        for x in range(queryCount):
             print('x')
             print(x)
-            magnitude_value = round(random.uniform(magnitudeStart, magnitudeEnd), 2)
+            magnitude_value = round(random.uniform(startingMagnitude, EndingMagnitude), 2)
             query = "SELECT 'time', latitude , longitude, place, mag FROM EARTHQUAKE WHERE mag = '" + str(magnitude_value) + "'"
             # print("inside else")
             memhash = hashlib.sha256(query.encode()).hexdigest()
-            startTime = time.time()
+            startingtime = time.time()
             list_dict_Data = r.get(memhash)
 
             # print(list_dict_Data[0])
@@ -182,7 +182,7 @@ def randomQueries():
                     # print("from db")
                     print('Hi first block')
                     list_dict_DataDisplay = list_dict_Data
-                endTime = time.time()
+                endingtime = time.time()
                 memData = []
                 for row in list_dict_Data:
                     # print('row')
@@ -197,13 +197,13 @@ def randomQueries():
                     memData.append(memDataDict)
                 r.set(memhash, dumps(memData))
                 print('Hi')
-                executionTime = (endTime - startTime) * 1000
+                Exectime = (endingtime - startingtime) * 1000
                 if x == 0:
                     print('Hi again')
-                    firstExecutionTime = executionTime
+                    firstExecutionTime = Exectime
                 else:
                     print('Not 0 iteration')    
-                totalExecutionTime = totalExecutionTime + executionTime
+                totalExecutionTime = totalExecutionTime + Exectime
                 
 
             else:
@@ -211,14 +211,14 @@ def randomQueries():
                 list_dict_Data = loads(list_dict_Data.decode())
                 if x == 0:
                     list_dict_DataDisplay = list_dict_Data
-                endTime = time.time()
-            executionTime = (endTime - startTime) * 1000
+                endingtime = time.time()
+            Exectime = (endingtime - startingtime) * 1000
             if x == 0:
-                    firstExecutionTime = executionTime
-            totalExecutionTime = totalExecutionTime + executionTime
+                    firstExecutionTime = Exectime
+            totalExecutionTime = totalExecutionTime + Exectime
     conn.close()
     # print(list_dict_Data)
-    return render_template('index.html', tableData=list_dict_DataDisplay, tableDataLen=list_dict_DataDisplay.__len__(), executionTime=totalExecutionTime, firstExecutionTime=firstExecutionTime)
+    return render_template('index.html', tableData=list_dict_DataDisplay, tableDataLen=list_dict_DataDisplay.__len__(), Exectime=totalExecutionTime, firstExecutionTime=firstExecutionTime)
 
 # @app.route('/magsearch',methods=['GET', 'POST'])
 
