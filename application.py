@@ -122,7 +122,7 @@ def randomQueries():
         latitude_value = round(random.uniform(firstlat, secondlat), 2)
         print(latitude_value)
         startingtime = time.time()
-        query = "SELECT 'time', latitude, longitude, place, mag FROM EARTHQUAKE WHERE latitude = '" + str(latitude_value) + "'"
+        query = "SELECT * FROM EARTHQUAKE WHERE latitude = '" + str(latitude_value) + "'"
         cursor.execute(query)
         endingtime = time.time()
         # print(query)
@@ -135,7 +135,7 @@ def randomQueries():
             totalExecutionTime = totalExecutionTime + Exectime
             latitude_value = round(random.uniform(firstlat, secondlat), 2)
             startingtime = time.time()
-            query = "SELECT 'time', latitude , longitude, place, mag FROM EARTHQUAKE WHERE latitude = '" + str(latitude_value) + "'"
+            query = "SELECT * FROM EARTHQUAKE WHERE latitude = '" + str(latitude_value) + "'"
             cursor.execute(query)
             endingtime = time.time()
             list_dict_Data = list(cursor.fetchall())
@@ -162,7 +162,8 @@ def randomQueries():
             print('x')
             print(x)
             latitude_value = round(random.uniform(firstlat, secondlat), 2)
-            query = "SELECT 'time', latitude , longitude, place, mag FROM EARTHQUAKE WHERE latitude = '" + str(latitude_value) + "'"
+            # query = "SELECT 'time', latitude , longitude, place, mag FROM EARTHQUAKE WHERE latitude = '" + str(latitude_value) + "'"
+            query = "SELECT * FROM EARTHQUAKE WHERE latitude = '" + str(latitude_value) + "'"
             # print("inside else")
             memhash = hashlib.sha256(query.encode()).hexdigest()
             startingtime = time.time()
