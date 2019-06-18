@@ -84,8 +84,8 @@ def createTable():
 @app.route('/location', methods=['GET', 'POST'])
 def location():
     lat1 = request.form['lat1']
-    lon1 = request.form['lon1']
-    # lat2 = request.form['lat2']
+    # lon1 = request.form['lon1']
+    lat2 = request.form['lat2']
     # lon2 = request.form['lon2']
     cnxn = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:mayankazuredb.database.windows.net,1433;Database=azuredbtest;Uid=mayanksharma1893@mayankazuredb;Pwd=Mayank180493#;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
     cursor = cnxn.cursor()
