@@ -85,11 +85,11 @@ def createTable():
 def location():
     lat1 = request.form['lat1']
     lon1 = request.form['lon1']
-    lat2 = request.form['lat2']
-    lon2 = request.form['lon2']
+    # lat2 = request.form['lat2']
+    # lon2 = request.form['lon2']
     cnxn = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:mayankazuredb.database.windows.net,1433;Database=azuredbtest;Uid=mayanksharma1893@mayankazuredb;Pwd=Mayank180493#;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
     cursor = cnxn.cursor()
-    cursor.execute("Select * from EARTHQUAKE where longitude >= '"+lon1+"' and longitude <= '"+lon2+"' and latitude >='"+lat1+"' and latitude <= '"+lat2+"' ")
+    cursor.execute("Select * from EARTHQUAKE where latitude between '"+lat1+"' and '"+lat2+"' ")
     result = cursor.fetchall()
     print(result)
     return render_template("location.html", row=result)
@@ -97,15 +97,15 @@ def location():
 
 @app.route('/randomqueries', methods=['GET', 'POST'])
 def randomQueries():
-    startingMagnitude = int(request.form['minmag'])
-    EndingMagnitude = int(request.form['maxmag'])
+    firstlat = int(request.form['lat1'])
+    secondlat = int(request.form['lat2'])
     queryCount = int(request.form['count'])
     useCache = int(request.form['Cache'])
     # queryCount = request.form["quer"]
     # print(type(queryCount))
     # useCache = int(request.form['cache'])
-    # startingMagnitude = float(request.form['startingMagnitude'])
-    # EndingMagnitude = float(request.form['EndingMagnitude'])
+    # firstlat = float(request.form['firstlat'])
+    # secondlat = float(request.form['secondlat'])
 
     list_dict_Data = []
     list_dict_DataDisplay = []
@@ -119,10 +119,10 @@ def randomQueries():
     if useCache == 0:
         # print("hi!")
 
-        magnitude_value = round(random.uniform(startingMagnitude, EndingMagnitude), 2)
-        print(magnitude_value)
+        latitude_value = round(random.uniform(firstlat, secondlat), 2)
+        print(latitude_value)
         startingtime = time.time()
-        query = "SELECT 'time', latitude, longitude, place, mag FROM EARTHQUAKE WHERE mag = '" + str(magnitude_value) + "'"
+        query = "SELECT 'time', latitude, longitude, place, mag FROM EARTHQUAKE WHERE latitude = '" + str(latitude_value) + "'"
         cursor.execute(query)
         endingtime = time.time()
         # print(query)
@@ -133,9 +133,9 @@ def randomQueries():
 
         for i in range(queryCount-1):
             totalExecutionTime = totalExecutionTime + Exectime
-            magnitude_value = round(random.uniform(startingMagnitude, EndingMagnitude), 2)
+            latitude_value = round(random.uniform(firstlat, secondlat), 2)
             startingtime = time.time()
-            query = "SELECT 'time', latitude , longitude, place, mag FROM EARTHQUAKE WHERE mag = '" + str(magnitude_value) + "'"
+            query = "SELECT 'time', latitude , longitude, place, mag FROM EARTHQUAKE WHERE latitude = '" + str(latitude_value) + "'"
             cursor.execute(query)
             endingtime = time.time()
             list_dict_Data = list(cursor.fetchall())
@@ -161,8 +161,8 @@ def randomQueries():
         for x in range(queryCount):
             print('x')
             print(x)
-            magnitude_value = round(random.uniform(startingMagnitude, EndingMagnitude), 2)
-            query = "SELECT 'time', latitude , longitude, place, mag FROM EARTHQUAKE WHERE mag = '" + str(magnitude_value) + "'"
+            latitude_value = round(random.uniform(firstlat, secondlat), 2)
+            query = "SELECT 'time', latitude , longitude, place, mag FROM EARTHQUAKE WHERE latitude = '" + str(latitude_value) + "'"
             # print("inside else")
             memhash = hashlib.sha256(query.encode()).hexdigest()
             startingtime = time.time()
