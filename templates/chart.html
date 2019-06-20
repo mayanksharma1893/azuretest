@@ -26,10 +26,8 @@
             var data = {{a|tojson|safe}};
             console.log(data);
             var chart = new dimple.chart(svg, data);
-            // chart.addCategoryAxis("x", "latitude");
-            // chart.addMeasureAxis("y", "mag");
-            chart.addCategoryAxis("x", "mag");
-            chart.addMeasureAxis("y", "place");
+            chart.addCategoryAxis("x", "latitude");
+            chart.addMeasureAxis("y", "mag");
             chart.addSeries(null, dimple.plot.bar);
             chart.draw();}
             
