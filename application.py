@@ -11,7 +11,7 @@ port = int(os.getenv("PORT", 5000))
 @app.route('/')
 def hello_world():
     con = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:mayankazuredb.database.windows.net,1433;Database=azuredbtest;Uid=mayanksharma1893@mayankazuredb;Pwd=Mayank180493#;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
-    query="Select mag,latitude from EARTHQUAKE where mag >= 7"
+    query="Select mag,latitude from EARTHQUAKE where mag >= 6.8"
     columns=['mag','latitude']
     dic=dict()
     cur=con.cursor()
