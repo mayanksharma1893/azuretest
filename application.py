@@ -8,27 +8,49 @@ app = Flask(__name__)
 
 port = int(os.getenv("PORT", 5000))
 
+# @app.route('/')
+# def hello_world():
+    # con = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:mayankazuredb.database.windows.net,1433;Database=azuredbtest;Uid=mayanksharma1893@mayankazuredb;Pwd=Mayank180493#;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+    # # query="Select mag,latitude from EARTHQUAKE where mag >= 6.2"
+    # query="select StateName from voting where Totalpop between 5000000 AND 10000000"
+    # # columns=['mag','latitude']
+    # columns=['place','mag']
+    # dic=dict()
+    # cur=con.cursor()
+    # mem=[]
+    # cur.execute(query)
+    # result=list(cur.fetchall())
+    # for row in result:
+    #     memdict=dict()
+    #     for j,val in enumerate(row):
+    #         memdict[columns[j]]=val
+    #     mem.append(memdict)
+    # # print(mem)
+    # a=[1,2,3,4,5]
+    # # print(a)
+    # return render_template('chart.html',a=mem,chart="bar")
+
 @app.route('/')
 def hello_world():
-    con = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:mayankazuredb.database.windows.net,1433;Database=azuredbtest;Uid=mayanksharma1893@mayankazuredb;Pwd=Mayank180493#;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
-    # query="Select mag,latitude from EARTHQUAKE where mag >= 6.2"
-    query="select place,mag from EARTHQUAKE where (latitude between 65 and 135) AND (longitude BETWEEN -150 AND -35)"
-    # columns=['mag','latitude']
-    columns=['place','mag']
-    dic=dict()
-    cur=con.cursor()
-    mem=[]
-    cur.execute(query)
-    result=list(cur.fetchall())
-    for row in result:
-        memdict=dict()
-        for j,val in enumerate(row):
-            memdict[columns[j]]=val
-        mem.append(memdict)
-    # print(mem)
-    a=[1,2,3,4,5]
-    # print(a)
-    return render_template('chart.html',a=mem,chart="bar")
+    conn = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:mayankazuredb.database.windows.net,1433;Database=azuredbtest;Uid=mayanksharma1893@mayankazuredb;Pwd=Mayank180493#;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+    lstDictionaryData = []
+    cursor = conn.cursor()
+    startingtime = time.time()
+    query="select StateName from voting where Totalpop between 5000000 AND 10000000"
+    # print(query)
+    cursor.execute(query)
+    # print(tmp)
+    endingtime = time.time()
+    row = cursor.fetchone()
+    while row:
+        lstDictionaryData.append(row)
+        # print("hi!" + str(row))
+        row = cursor.fetchone()
+    # return "hello!!"
+    conn.close()
+    Exectime = (endingtime - startingtime) * 1000
+    return render_template('index.html', tableData=lstDictionaryData, tableDataLen=lstDictionaryData.__len__(), Exectime=Exectime)
+
 
 # @app.route('/streaming.csv')
 # def streaming():
