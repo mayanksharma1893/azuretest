@@ -13,7 +13,8 @@ def hello_world():
     con = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:mayankazuredb.database.windows.net,1433;Database=azuredbtest;Uid=mayanksharma1893@mayankazuredb;Pwd=Mayank180493#;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
     # query="Select mag,latitude from EARTHQUAKE where mag >= 6.2"
     query="select place,mag from EARTHQUAKE where (latitude between 65 and 135) AND (longitude BETWEEN -150 AND -35)"
-    columns=['mag','latitude']
+    # columns=['mag','latitude']
+    columns=['place','mag']
     dic=dict()
     cur=con.cursor()
     mem=[]
