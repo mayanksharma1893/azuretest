@@ -26,7 +26,7 @@ def hello_world():
     # print(mem)
     a=[1,2,3,4,5]
     # print(a)
-    return render_template('chart.html',a=mem,chart="bar")
+    return render_template('chart.html',a=mem,chart="pie")
 
 # @app.route('/streaming.csv')
 # def streaming():
@@ -48,7 +48,8 @@ def hello_world():
         
 #     return tuple(result)
 
-
+port = os.getenv("PORT", 5000)
 
 if __name__ == '__main__':
-    app.run(port=port,debug=True)
+    app.run(debug="true",port=int(port))
+    # app.run(port=port,debug=True)
