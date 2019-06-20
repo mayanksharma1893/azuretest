@@ -51,5 +51,5 @@ def hello_world():
 port = os.getenv("PORT", 5000)
 
 if __name__ == '__main__':
-    app.run(debug="true",port=int(port))
-    # app.run(port=port,debug=True)
+    # app.run(debug="true",port=int(port))
+    app.run(port=port,debug=True)
