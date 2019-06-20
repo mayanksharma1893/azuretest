@@ -107,11 +107,23 @@
                 <tr style="font-weight: bold">
                     <!-- <td>Location</td> -->
                     <td>State Name</td>
+                    <td>Total Population</td>
+                    <td>Voting Population</td>
+                    <td>Registered</td>
+                    <td>Voted</td>
+                    <td>TEst</td>
+                    <td>TEST2</td>
                 </tr>
                 {% for data in tableData %}
                     <tr>
                         <!-- <td>{{ data[0] }}</td> -->
                         <td>{{ data.StateName}}</td>
+                        <td>{{ data.TotalPop}}</td>
+                        <td>{{ data.VotePop}}</td>
+                        <td>{{ data.Registered}}</td>
+                        <td>{{ data.voted}}</td>
+                        <td>{{ data.column6}}</td>
+                        <td>{{ data.column7}}</td>
                     </tr>
                 {% endfor %}
             </table>
