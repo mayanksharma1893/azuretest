@@ -62,7 +62,7 @@ def hello_world():
 
 
 nvalue = int(request.form['nvalue'])
-   con = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:hello1997.database.windows.net,1433;Database=quakes;Uid=raja@hello1997;Pwd={azure@123};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+   con = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:mayankazuredb.database.windows.net,1433;Database=azuredbtest;Uid=mayanksharma1893@mayankazuredb;Pwd={Mayank180493#};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
    # a=nvalue #chnage this variable
    start=nvalue
    end=80
