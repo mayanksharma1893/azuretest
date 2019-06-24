@@ -14,7 +14,7 @@ def hello_world():
     a=10
     start=0
     end=100
-    age_interval=[0]
+    age_interval=[20]
     val=start
     while val<end:
         val+=10
