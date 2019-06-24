@@ -10,55 +10,86 @@ port = int(os.getenv("PORT", 5000))
 
 @app.route('/')
 def hello_world():
-    con = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:mayankazuredb.database.windows.net,1433;Database=azuredbtest;Uid=mayanksharma1893@mayankazuredb;Pwd={Mayank180493#};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
-    a=10
-    start=0
-    end=100
-    age_interval=[20]
-    val=start
-    while val<end:
-        val+=10
-        age_interval.append(val)
-    # columns=['age_group','count']  
-    # print(age_interval)
-    mem=[]
-    # memdict=dict()
-    # for i in range(0,len(age_interval)-1):
-    #     query="select StateName,(Voted/TotalPop*100) AS Perc from voting"
-    #     cur=con.cursor()
-    #     cur.execute(query)
-    #     result=list(cur.fetchall())
+    # con = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:mayankazuredb.database.windows.net,1433;Database=azuredbtest;Uid=mayanksharma1893@mayankazuredb;Pwd={Mayank180493#};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+    # a=10
+    # start=0
+    # end=100
+    # age_interval=[0]
+    # val=start
+    # while val<end:
+    #     val+=10
+    #     age_interval.append(val)
+    # # columns=['age_group','count']  
+    # # print(age_interval)
+    # mem=[]
+    # # memdict=dict()
+    # # for i in range(0,len(age_interval)-1):
+    # #     query="select StateName,(Voted/TotalPop*100) AS Perc from voting"
+    # #     cur=con.cursor()
+    # #     cur.execute(query)
+    # #     result=list(cur.fetchall())
         
-    #     age_group=str(age_interval[i])+"-"+str(age_interval[i+1])
-    #     for row in result: 
-    #         memdict=dict()
-    #         for j,val in enumerate(row):
-    #             memdict["StateName"]=StateName  
-    #             memdict["Perc"]=Perc
-    #             mem.append(memdict)
-    #         print(mem)
+    # #     age_group=str(age_interval[i])+"-"+str(age_interval[i+1])
+    # #     for row in result: 
+    # #         memdict=dict()
+    # #         for j,val in enumerate(row):
+    # #             memdict["StateName"]=StateName  
+    # #             memdict["Perc"]=Perc
+    # #             mem.append(memdict)
+    # #         print(mem)
 
-    #     # print(mem)
-    # return render_template('chart.html',a=mem,chart="pie")
+    # #     # print(mem)
+    # # return render_template('chart.html',a=mem,chart="pie")
 
 
     
-    query="select StateName,(Voted/TotalPop*100) AS Perc from voting"
-    columns=['StateName','Perc']
-    dic=dict()
-    cur=con.cursor()
-    mem=[]
-    cur.execute(query)
-    result=list(cur.fetchall())
-    for row in result:
-        memdict=dict()
-        for j,val in enumerate(row):
-            memdict[columns[j]]=val
-        mem.append(memdict)
-    # print(mem)
-    a=[1,2,3,4,5]
-    # print(a)
-    return render_template('chart.html',a=mem,chart="pie")
+    # query="select StateName,(Voted/TotalPop*100) AS Perc from voting"
+    # columns=['StateName','Perc']
+    # dic=dict()
+    # cur=con.cursor()
+    # mem=[]
+    # cur.execute(query)
+    # result=list(cur.fetchall())
+    # for row in result:
+    #     memdict=dict()
+    #     for j,val in enumerate(row):
+    #         memdict[columns[j]]=val
+    #     mem.append(memdict)
+    # # print(mem)
+    # a=[1,2,3,4,5]
+    # # print(a)
+    # return render_template('chart.html',a=mem,chart="pie")
+
+
+nvalue = int(request.form['nvalue'])
+   con = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=tcp:hello1997.database.windows.net,1433;Database=quakes;Uid=raja@hello1997;Pwd={azure@123};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+   # a=nvalue #chnage this variable
+   start=nvalue
+   end=80
+   age_interval=[0]
+   val=start
+   while val<end:
+       val+=nvalue
+       age_interval.append(val)
+   mem=[]
+   for i in range(0,len(age_interval)-1):
+       #query="select (count(*)) as count from voting where age > "+str(age_interval[i])+" and age<"+str(age_interval[i+1])
+       query="select count(*) as count from voting where ((voted/Totalpop)*100) >"+str(age_interval[i])+" and ((voted/Totalpop)*100)< "+str(age_interval[i+1])
+       cur=con.cursor()
+       cur.execute(query)
+       result=list(cur.fetchall())
+       vtt=str(age_interval[i])+"-"+str(age_interval[i+1])
+       for row in result:
+           memdict=dict()
+           for j,val in enumerate(row):
+               memdict["vtt"]=vtt
+               memdict["States"]=val
+               mem.append(memdict)
+           print(mem)
+
+   return render_template('chart.html',a=mem,chart="pie")
+
+
 
 # @app.route('/streaming.csv')
 # def streaming():
